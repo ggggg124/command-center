@@ -82,16 +82,7 @@ export default function Home() {
         {/* Footer */}
         <footer className="mt-8 pt-8 border-t text-center text-gray-500 text-sm">
           <p>Command Center v1.0 • Built with care in Sydney 🦞</p>
-          <p className="mt-1">OpenClaw Management System</p>
-          <div className="mt-2 p-2 bg-blue-50 rounded-lg inline-block">
-            <p className="text-blue-700 font-medium">
-              🕒 Live: Updated {new Date().toLocaleTimeString('en-AU', { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                timeZone: 'Australia/Sydney'
-              })} Sydney time
-            </p>
-          </div>
+          <p className="mt-1">OpenClaw Management System • Auto-deploy active</p>
         </footer>
       </div>
     </div>

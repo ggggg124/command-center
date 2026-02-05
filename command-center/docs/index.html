@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Command Center - OpenClaw</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -17,8 +17,7 @@
         .dashboard {
             max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: white;
             border-radius: 24px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
@@ -27,9 +26,6 @@
             background: linear-gradient(90deg, #007AFF, #5856D6);
             color: white;
             padding: 24px 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
         }
         .status-card {
             background: white;
@@ -37,38 +33,11 @@
             padding: 20px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             border: 1px solid #e5e7eb;
-            transition: all 0.3s ease;
         }
-        .status-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-        }
-        .status-running { background: #34C759; }
-        .status-warning { background: #FF9500; }
-        .status-error { background: #FF3B30; }
-        
         .task-item {
             padding: 16px;
             border-bottom: 1px solid #f3f4f6;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: background 0.2s;
         }
-        .task-item:hover {
-            background: #f9fafb;
-        }
-        .task-item:last-child {
-            border-bottom: none;
-        }
-        
         .quick-action {
             background: white;
             border: 2px solid #007AFF;
@@ -77,34 +46,11 @@
             border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
         }
-        .quick-action:hover {
-            background: #007AFF;
-            color: white;
-            transform: scale(1.05);
-        }
-        
         .kanban-column {
             background: #f8fafc;
             border-radius: 12px;
             padding: 16px;
-            min-height: 400px;
-        }
-        
-        @media (max-width: 768px) {
-            .dashboard {
-                border-radius: 16px;
-            }
-            .header {
-                padding: 16px;
-                flex-direction: column;
-                gap: 16px;
-                text-align: center;
-            }
         }
     </style>
 </head>
@@ -121,11 +67,6 @@
                     <p class="text-white/80">OpenClaw Management Dashboard</p>
                 </div>
             </div>
-            <div class="text-right">
-                <div class="text-sm opacity-90">Sydney, Australia</div>
-                <div class="text-xl font-semibold" id="current-time">6:30 PM</div>
-                <div class="text-sm opacity-90">5 Feb 2026</div>
-            </div>
         </div>
 
         <!-- Main Content -->
@@ -133,10 +74,7 @@
             <!-- Status Row -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="status-card">
-                    <h3 class="font-semibold text-gray-900 mb-4 flex items-center">
-                        <span class="status-indicator status-running"></span>
-                        System Status
-                    </h3>
+                    <h3 class="font-semibold text-gray-900 mb-4">System Status</h3>
                     <div class="space-y-3">
                         <div class="flex justify-between">
                             <span class="text-gray-600">OpenClaw Gateway</span>
@@ -154,10 +92,7 @@
                 </div>
                 
                 <div class="status-card">
-                    <h3 class="font-semibold text-gray-900 mb-4 flex items-center">
-                        <i class="fas fa-calendar-alt text-blue-500 mr-2"></i>
-                        Active Cron Jobs
-                    </h3>
+                    <h3 class="font-semibold text-gray-900 mb-4">Active Cron Jobs</h3>
                     <div class="space-y-3">
                         <div class="flex justify-between items-center">
                             <div>
@@ -177,10 +112,7 @@
                 </div>
                 
                 <div class="status-card">
-                    <h3 class="font-semibold text-gray-900 mb-4 flex items-center">
-                        <i class="fas fa-shield-alt text-purple-500 mr-2"></i>
-                        Security Status
-                    </h3>
+                    <h3 class="font-semibold text-gray-900 mb-4">Security Status</h3>
                     <div class="space-y-3">
                         <div class="flex justify-between">
                             <span class="text-gray-600">Telegram Bot</span>
@@ -228,11 +160,11 @@
                     <div class="kanban-column">
                         <h3 class="font-semibold text-gray-700 mb-4">Backlog</h3>
                         <div id="backlog-tasks">
-                            <div class="task-item" draggable="true" ondragstart="dragStart(event)">
+                            <div class="task-item">
                                 <span>Set up GitHub repo</span>
                                 <span class="text-sm text-gray-500">High</span>
                             </div>
-                            <div class="task-item" draggable="true" ondragstart="dragStart(event)">
+                            <div class="task-item">
                                 <span>Initialize project</span>
                                 <span class="text-sm text-gray-500">Medium</span>
                             </div>
@@ -242,11 +174,11 @@
                     <div class="kanban-column">
                         <h3 class="font-semibold text-gray-700 mb-4">To Do</h3>
                         <div id="todo-tasks">
-                            <div class="task-item" draggable="true" ondragstart="dragStart(event)">
+                            <div class="task-item">
                                 <span>Build Kanban board</span>
                                 <span class="text-sm text-gray-500">High</span>
                             </div>
-                            <div class="task-item" draggable="true" ondragstart="dragStart(event)">
+                            <div class="task-item">
                                 <span>Design dashboard</span>
                                 <span class="text-sm text-gray-500">Medium</span>
                             </div>
@@ -256,8 +188,8 @@
                     <div class="kanban-column">
                         <h3 class="font-semibold text-gray-700 mb-4">In Progress</h3>
                         <div id="progress-tasks">
-                            <div class="task-item" draggable="true" ondragstart="dragStart(event)">
-                                <span>Deploy to Vercel</span>
+                            <div class="task-item">
+                                <span>Deploy to GitHub Pages</span>
                                 <span class="text-sm text-blue-500">🔄 Active</span>
                             </div>
                         </div>
@@ -288,7 +220,7 @@
                             <i class="fas fa-database text-green-500"></i>
                             <div>
                                 <div class="font-medium">Backup created</div>
-                                <div class="text-sm text-gray-500">2 hours ago • Safe workspace backup</div>
+                                <div class="text-sm text-gray-500">2 hours ago</div>
                             </div>
                         </div>
                     </div>
@@ -297,7 +229,7 @@
                             <i class="fas fa-robot text-blue-500"></i>
                             <div>
                                 <div class="font-medium">Night shift completed</div>
-                                <div class="text-sm text-gray-500">14 hours ago • Command Center built</div>
+                                <div class="text-sm text-gray-500">14 hours ago</div>
                             </div>
                         </div>
                     </div>
@@ -306,7 +238,7 @@
                             <i class="fas fa-tasks text-purple-500"></i>
                             <div>
                                 <div class="font-medium">3 tasks moved to Done</div>
-                                <div class="text-sm text-gray-500">1 day ago • Documentation completed</div>
+                                <div class="text-sm text-gray-500">1 day ago</div>
                             </div>
                         </div>
                     </div>
@@ -317,28 +249,11 @@
         <!-- Footer -->
         <div class="border-t px-8 py-6 text-center text-gray-500 text-sm">
             <p>Command Center v1.0 • Built with care in Sydney 🦞</p>
-            <p class="mt-1">OpenClaw Management System • GitHub Pages Ready</p>
+            <p class="mt-1">OpenClaw Management System • GitHub Pages Deployed</p>
         </div>
     </div>
 
     <script>
-        // Live time update
-        function updateTime() {
-            const now = new Date();
-            const options = { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                hour12: false,
-                timeZone: 'Australia/Sydney'
-            };
-            document.getElementById('current-time').textContent = 
-                now.toLocaleTimeString('en-AU', options);
-        }
-        
-        setInterval(updateTime, 60000);
-        updateTime();
-        
-        // Quick actions
         function runAction(action) {
             const messages = {
                 backup: '🚀 Starting backup process...',
@@ -360,48 +275,6 @@
                 alert('✅ Action completed successfully!');
             }, 1500);
         }
-        
-        // Drag and drop
-        let draggedTask = null;
-        
-        function dragStart(e) {
-            draggedTask = e.target;
-            e.dataTransfer.effectAllowed = 'move';
-            e.target.style.opacity = '0.4';
-        }
-        
-        function allowDrop(e) {
-            e.preventDefault();
-        }
-        
-        function drop(e) {
-            e.preventDefault();
-            if (draggedTask && e.target.classList.contains('kanban-column')) {
-                const tasksContainer = e.target.querySelector('div:last-child');
-                tasksContainer.appendChild(draggedTask);
-                draggedTask.style.opacity = '1';
-                
-                // Update status based on column
-                const columnTitle = e.target.querySelector('h3').textContent;
-                const statusSpan = draggedTask.querySelector('.text-sm');
-                
-                if (columnTitle.includes('Done')) {
-                    statusSpan.textContent = '✅ Done';
-                    statusSpan.className = 'text-sm text-green-500';
-                } else if (columnTitle.includes('Progress')) {
-                    statusSpan.textContent = '🔄 Active';
-                    statusSpan.className = 'text-sm text-blue-500';
-                }
-                
-                alert(`✅ Task moved to "${columnTitle}"`);
-            }
-        }
-        
-        // Make columns drop targets
-        document.querySelectorAll('.kanban-column').forEach(column => {
-            column.addEventListener('dragover', allowDrop);
-            column.addEventListener('drop', drop);
-        });
         
         console.log('Command Center loaded! 🦞');
     </script>

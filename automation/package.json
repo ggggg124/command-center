@@ -1,0 +1,25 @@
+{
+  "name": "openclaw-automation",
+  "version": "1.0.0",
+  "description": "Automation scripts for OpenClaw monitoring and management",
+  "main": "bot-health-check.js",
+  "scripts": {
+    "check": "node bot-health-check.js",
+    "test": "echo \"No tests specified\" && exit 0",
+    "start": "node bot-health-check.js"
+  },
+  "keywords": [
+    "openclaw",
+    "automation",
+    "monitoring",
+    "telegram",
+    "bots"
+  ],
+  "author": "OpenClaw System",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

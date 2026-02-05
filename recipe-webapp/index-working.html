@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Dinner & Co. | Recipe Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; background: #F2F2F7; font-size: 14px; }
+        .glass { background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .accent { color: #007AFF; }
+        .btn-primary { background: #007AFF; color: white; border-radius: 10px; font-weight: 600; padding: 10px 16px; font-size: 14px; transition: all 0.2s; }
+        .btn-primary:active { transform: scale(0.95); }
+    </style>
+</head>
+<body class="pb-24">
+    <!-- Header -->
+    <header class="sticky top-0 glass z-50 px-6 py-4 border-b border-gray-200">
+        <div class="flex justify-between items-center max-w-lg mx-auto">
+            <h1 id="view-title" class="text-2xl font-bold tracking-tight">Weekly Planner</h1>
+        </div>
+    </header>
+
+    <main class="max-w-lg mx-auto p-6">
+        
+        <!-- PLANNER VIEW -->
+        <section id="planner-view" class="view">
+            <div class="ios-card p-6 flex items-center justify-between mb-6">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase font-bold tracking-tight">Your Week</p>
+                    <h2 class="text-xl font-bold">Dinner Plan Ready</h2>
+                </div>
+                <button class="btn-primary" onclick="generatePlan()">New Plan</button>
+            </div>
+            
+            <div id="plan-list" class="space-y-4">
+                <!-- Day cards injected here -->
+            </div>
+        </section>
+
+        <!-- RECIPES VIEW -->
+        <section id="recipes-view" class="view hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Your Cookbook</h3>
+            </div>
+            
+            <div id="recipe-list" class="grid gap-4">
+                <!-- Recipe cards injected here -->
+            </div>
+        </section>
+
+        <!-- GROCERIES VIEW -->
+        <section id="groceries-view" class="view hidden">
+            <div id="shopping-list" class="space-y-4">
+                <!-- Shopping list injected here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 glass border-t border-gray-200 px-8 py-4">
+        <div class="flex justify-between max-w-lg mx-auto">
+            <button onclick="showView('planner')" class="nav-btn flex flex-col items-center accent" data-view="planner">
+                <i data-lucide="calendar"></i>
+                <span class="text-[10px] mt-1 font-medium">Planner</span>
+            </button>
+            <button onclick="showView('recipes')" class="nav-btn flex flex-col items-center text-gray-400" data-view="recipes">
+                <i data-lucide="book"></i>
+                <span class="text-[10px] mt-1 font-medium">Recipes</span>
+            </button>
+            <button onclick="showView('groceries')" class="nav-btn flex flex-col items-center text-gray-400" data-view="groceries">
+                <i data-lucide="shopping-cart"></i>
+                <span class="text-[10px] mt-1 font-medium">Groceries</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // Simple data storage
+        const recipes = [
+            { 
+                id: 1, 
+                name: 'Spaghetti Bolognese', 
+                category: 'Pasta', 
+                cookingTime: 45, 
+                favorite: true, 
+                ingredients: [
+                    {name: 'Ground Beef', quantity: 500, unit: 'g'}, 
+                    {name: 'Pasta', quantity: 400, unit: 'g'},
+                    {name: 'Tomatoes', quantity: 4, unit: 'pieces'},
+                    {name: 'Onion', quantity: 1, unit: 'piece'}
+                ],
+                instructions: '1. Cook pasta\n2. Brown beef\n3. Add tomatoes and onion\n4. Simmer for 20 minutes\n5. Serve hot'
+            },
+            { 
+                id: 2, 
+                name: 'Chicken Stir Fry', 
+                category: 'Chicken', 
+                cookingTime: 30, 
+                favorite: false, 
+                ingredients: [
+                    {name: 'Chicken Breast', quantity: 2, unit: 'pieces'}, 
+                    {name: 'Rice', quantity: 300, unit: 'g'},
+                    {name: 'Broccoli', quantity: 1, unit: 'head'},
+                    {name: 'Carrots', quantity: 2, unit: 'pieces'}
+                ],
+                instructions: '1. Cook rice\n2. Stir fry chicken\n3. Add vegetables\n4. Season and serve'
+            },
+            { 
+                id: 3, 
+                name: 'Baked Salmon', 
+                category: 'Seafood', 
+                cookingTime: 25, 
+                favorite: true, 
+                ingredients: [
+                    {name: 'Salmon', quantity: 2, unit: 'fillets'}, 
+                    {name: 'Potatoes', quantity: 4, unit: 'pieces'},
+                    {name: 'Lemon', quantity: 1, unit: 'piece'},
+                    {name: 'Asparagus', quantity: 200, unit: 'g'}
+                ],
+                instructions: '1. Preheat oven to 200°C\n2. Season salmon\n3. Bake for 20 minutes\n4. Serve with lemon'
+            }
+        ];
+        
+        let currentPlan = null;
+        let currentView = 'planner';
+        
+        // View management
+        function showView(viewName) {
+            currentView = viewName;
+            
+            // Hide all views
+            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+            document.getElementById(viewName + '-view').classList.remove('hidden');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('accent');
+                b.classList.add('text-gray-400');
+            });
+            document.querySelector(`[data-view="${viewName}"]`).classList.add('accent');
+            document.querySelector(`[data-view="${viewName}"]`).classList.remove('text-gray-400');
+            
+            // Update title
+            const titles = { planner: 'Weekly Planner', recipes: 'Recipe Manager', groceries: 'Shopping List' };
+            document.getElementById('view-title').innerText = titles[viewName];
+            
+            // Render the view
+            if (viewName === 'planner') renderPlanner();
+            if (viewName === 'recipes') renderRecipes();
+            if (viewName === 'groceries') renderGroceries();
+            
+            lucide.createIcons();
+        }
+        
+        // Planner functions
+        function generatePlan() {
+            currentPlan = [
+                { day: 'Monday', recipe: recipes[0], type: 'Dinner' },
+                { day: 'Tuesday', recipe: recipes[1], type: 'Dinner' },
+                { day: 'Wednesday', recipe: recipes[2], type: 'Dinner' },
+                { day: 'Thursday', type: 'Takeaway' },
+                { day: 'Friday', type: 'Takeaway' },
+                { day: 'Saturday', recipe: recipes[0], type: 'Dinner' },
+                { day: 'Sunday', recipe: recipes[1], type: 'Dinner' }
+            ];
+            renderPlanner();
+        }
+        
+        function renderPlanner() {
+            const container = document.getElementById('plan-list');
+            if (!currentPlan) {
+                container.innerHTML = '<div class="text-center py-8 text-gray-500">No plan yet. Click "New Plan"</div>';
+                return;
+            }
+            
+            container.innerHTML = currentPlan.map(day => `
+                <div class="bg-white rounded-xl p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold">${day.day}</span>
+                        <span class="text-sm px-3 py-1 bg-gray-100 rounded-full">${day.type}</span>
+                    </div>
+                    ${day.recipe ? `
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div class="font-medium">${day.recipe.name} ${day.recipe.favorite ? '⭐' : ''}</div>
+                                <div class="text-sm text-gray-500">${day.recipe.category} • ${day.recipe.cookingTime} min</div>
+                            </div>
+                            <button onclick="swapRecipe('${day.day}')" class="text-blue-600 text-sm font-medium">Change</button>
+                        </div>
+                    ` : '<div class="text-gray-400 italic">Takeaway night</div>'}
+                </div>
+            `).join('');
+        }
+        
+        function swapRecipe(dayName) {
+            const dayIndex = currentPlan.findIndex(d => d.day === dayName);
+            if (dayIndex === -1) return;
+            
+            // Simple swap: rotate through recipes
+            const availableRecipes = recipes.filter(r => r.id !== currentPlan[dayIndex]?.recipe?.id);
+            if (availableRecipes.length > 0) {
+                currentPlan[dayIndex].recipe = availableRecipes[0];
+                renderPlanner();
+            }
+        }
+        
+        // Recipe functions
+        function renderRecipes() {
+            const container = document.getElementById('recipe-list');
+            container.innerHTML = recipes.map(recipe => `
+                <div class="bg-white rounded-xl p-4 shadow-sm">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="font-bold" onclick="viewRecipe(${recipe.id})" style="cursor: pointer;">${recipe.name}</span>
+                        <button onclick="toggleFavorite(${recipe.id})" class="text-yellow-500">
+                            ${recipe.favorite ? '★' : '☆'}
+                        </button>
+                    </div>
+                    <div class="text-sm text-gray-500 mb-2">${recipe.category} • ${recipe.cookingTime} min</div>
+                    <div class="text-xs text-gray-400">${recipe.ingredients.length} ingredients</div>
+                    <button onclick="editRecipe(${recipe.id})" class="text-blue-600 text-sm mt-3 block">Edit Recipe</button>
+                </div>
+            `).join('');
+        }
+        
+        function toggleFavorite(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (recipe) {
+                recipe.favorite = !recipe.favorite;
+                renderRecipes();
+                if (currentView === 'planner') renderPlanner();
+            }
+        }
+        
+        function viewRecipe(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (!recipe) return;
+            
+            const ingredientsList = recipe.ingredients.map(ing => 
+                `${ing.quantity}${ing.unit} ${ing.name}`
+            ).join('\n');
+            
+            alert(`🍽️ ${recipe.name}\n\n📋 Ingredients:\n${ingredientsList}\n\n📝 Instructions:\n${recipe.instructions}\n\n⏱️ ${recipe.cookingTime} minutes | ${recipe.category}`);
+        }
+        
+        function editRecipe(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (!recipe) return;
+            
+            const newQuantity = prompt(`Edit ${recipe.name} - Enter new quantity for ${recipe.ingredients[0].name}:`, recipe.ingredients[0].quantity);
+            if (newQuantity && !isNaN(newQuantity)) {
+                recipe.ingredients[0].quantity = parseFloat(newQuantity);
+                alert('Recipe updated!');
+                renderRecipes();
+                if (currentView === 'planner') renderPlanner();
+                if (currentView === 'groceries') renderGroceries();
+            }
+        }
+        
+        // Groceries functions
+        function renderGroceries() {
+            const container = document.getElementById('shopping-list');
+            if (!currentPlan) {
+                container.innerHTML = '<div class="text-center py-8 text-gray-500">Generate a meal plan first</div>';
+                return;
+            }
+            
+            // Group items by category
+            const categories = {
+                'Meat & Seafood': [],
+                'Fruits & Vegetables': [],
+                'Dry Goods': [],
+                'Dairy & Eggs': [],
+                'Other': []
+            };
+            
+            currentPlan.forEach(day => {
+                if (day.recipe) {
+                    day.recipe.ingredients.forEach(ing => {
+                        // Simple categorization
+                        let category = 'Other';
+                        const name = ing.name.toLowerCase();
+                        
+                        if (name.includes('beef') || name.includes('chicken') || name.includes('salmon') || name.includes('meat')) {
+                            category = 'Meat & Seafood';
+                        } else if (name.includes('tomato') || name.includes('onion') || name.includes('broccoli') || name.includes('carrot') || name.includes('potato') || name.includes('lemon') || name.includes('asparagus')) {
+                            category = 'Fruits & Vegetables';
+                        } else if (name.includes('pasta') || name.includes('rice')) {
+                            category = 'Dry Goods';
+                        }
+                        
+                        categories[category].push({
+                            ...ing,
+                            fromRecipe: day.recipe.name.substring(0, 3).toUpperCase() // First 3 letters as abbreviation
+                        });
+                    });
+                }
+            });
+            
+            let html = '';
+            Object.entries(categories).forEach(([category, items]) => {
+                if (items.length > 0) {
+                    html += `
+                        <div class="bg-white rounded-xl p-4 shadow-sm">
+                            <div class="font-bold mb-3 text-gray-700">${category}</div>
+                            ${items.map(item => `
+                                <div class="flex justify-between items-center py-2 border-b border-gray-100 last:border-0">
+                                    <div class="flex items-center">
+                                        <div class="w-5 h-5 border border-gray-300 rounded mr-3"></div>
+                                        <span>${item.name}</span>
+                                        <span class="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">${item.fromRecipe}</span>
+                                    </div>
+                                    <span class="font-medium text-blue-600">${item.quantity}${item.unit}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+            });
+            
+            container.innerHTML = html || '<div class="text-center py-8 text-gray-500">No items in shopping list</div>';
+        }
+        
+        // Initialize
+        window.onload = () => {
+            lucide.createIcons();
+            generatePlan();
+            renderRecipes();
+            showView('planner');
+        };
+    </script>
+</body>
+</html>

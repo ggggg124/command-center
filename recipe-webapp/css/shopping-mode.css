@@ -1,0 +1,239 @@
+/* Shopping Mode Styles - In-store check-off */
+
+/* Shopping Mode Active */
+.shopping-mode-active .shopping-item {
+    padding: 16px;
+    margin: 8px 0;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.shopping-mode-active .shopping-item:hover {
+    border-color: #007AFF;
+    background-color: #F0F9FF;
+    transform: translateY(-2px);
+}
+
+/* Larger Checkboxes for Easy Tapping */
+.shopping-mode-checkbox {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+}
+
+.shopping-mode-checkbox:checked {
+    background-color: #34C759 !important;
+    border-color: #34C759 !important;
+}
+
+/* Item Found Animation */
+@keyframes itemFound {
+    0% {
+        transform: scale(1);
+        background-color: transparent;
+    }
+    50% {
+        transform: scale(1.02);
+        background-color: rgba(52, 199, 89, 0.1);
+    }
+    100% {
+        transform: scale(1);
+        background-color: rgba(52, 199, 89, 0.05);
+    }
+}
+
+.item-found {
+    animation: itemFound 0.5s ease;
+}
+
+/* Shopping Mode Header */
+#shopping-mode-header {
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Completion Message */
+#completion-message {
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Shopping Mode Item States */
+.shopping-mode-item.item-checked {
+    opacity: 0.6;
+    background-color: #F9F9FB;
+}
+
+.shopping-mode-item.item-checked .font-medium {
+    text-decoration: line-through;
+    color: #8E8E93;
+}
+
+.shopping-mode-item.item-checked .text-gray-500 {
+    color: #AEAEB2;
+}
+
+/* Swipe Hint */
+.swipe-hint {
+    position: relative;
+    overflow: hidden;
+}
+
+.swipe-hint::after {
+    content: '← Swipe →';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(0, 122, 255, 0.1) 50%, 
+        transparent 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #007AFF;
+    font-weight: 600;
+    font-size: 14px;
+    opacity: 0;
+    animation: swipeHint 2s infinite;
+}
+
+@keyframes swipeHint {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Shopping Mode Toggle Button */
+#shopping-mode-toggle {
+    transition: all 0.3s ease;
+}
+
+#shopping-mode-toggle:active {
+    transform: scale(0.9);
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: white;
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .shopping-mode-active .shopping-item:hover {
+        background-color: #2C2C2E;
+        border-color: #007AFF;
+    }
+    
+    .shopping-mode-item.item-checked {
+        background-color: #1C1C1E;
+    }
+    
+    .item-found {
+        background-color: rgba(52, 199, 89, 0.1);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    .shopping-mode-active .shopping-item {
+        padding: 20px 16px;
+        margin: 12px 0;
+    }
+    
+    .shopping-mode-checkbox {
+        width: 32px !important;
+        height: 32px !important;
+        min-width: 32px !important;
+        min-height: 32px !important;
+    }
+    
+    #shopping-mode-header {
+        padding: 12px 16px;
+    }
+    
+    #shopping-mode-header h2 {
+        font-size: 18px;
+    }
+    
+    #completion-message {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .shopping-mode-active .shopping-item,
+    #shopping-mode-header,
+    #completion-message,
+    .item-found {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* Print Styles for Shopping List */
+@media print {
+    .shopping-mode-active .shopping-item {
+        border: 1px solid #ddd !important;
+        margin: 4px 0 !important;
+        padding: 8px !important;
+    }
+    
+    .shopping-mode-checkbox {
+        -webkit-appearance: none !important;
+        appearance: none !important;
+        width: 20px !important;
+        height: 20px !important;
+        border: 2px solid #000 !important;
+        border-radius: 4px !important;
+    }
+    
+    .shopping-mode-checkbox:checked::before {
+        content: '✓' !important;
+        display: block !important;
+        text-align: center !important;
+        line-height: 16px !important;
+        font-weight: bold !important;
+    }
+}

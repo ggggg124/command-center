@@ -1,0 +1,52 @@
+{
+  "session": "admin",
+  "messages": [
+    {
+      "id": "msg_001",
+      "timestamp": "2026-02-05T12:47:00Z",
+      "role": "user",
+      "content": "admin bot test",
+      "context": "testing"
+    },
+    {
+      "id": "msg_002",
+      "timestamp": "2026-02-05T12:51:00Z",
+      "role": "assistant",
+      "content": "Testing session management system for admin bot.",
+      "context": "system_setup"
+    }
+  ],
+  "summary": "Admin bot session for technical development and system management.",
+  "created": "2026-02-05T12:51:00Z",
+  "lastUpdated": "2026-02-05T12:51:00Z",
+  "entries": [
+    {
+      "timestamp": "2026-02-05T09:17:29.768Z",
+      "sessionKey": "agent:main:telegram:admin:dm:5086862672",
+      "context": "admin",
+      "message": "Plan meals for the week",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "home",
+        "matches": [
+          "meal",
+          "meals"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:24:24.610Z",
+      "sessionKey": "agent:main:telegram:admin:dm:5086862672",
+      "context": "admin",
+      "message": "Plan meals for the week",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "home",
+        "matches": [
+          "meal",
+          "meals"
+        ]
+      }
+    }
+  ]
+}

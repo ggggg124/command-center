@@ -1,0 +1,88 @@
+{
+  "name": "Easy Spaghetti Bolognese",
+  "category": ["dinner", "family-favorite", "quick"],
+  "prep_time_minutes": 15,
+  "cook_time_minutes": 30,
+  "total_time_minutes": 45,
+  "servings": 4,
+  "difficulty": "easy",
+  "source": "family recipe",
+  "source_details": "Don's go-to weeknight meal",
+  "ingredients": [
+    {
+      "name": "spaghetti",
+      "quantity": 400,
+      "unit": "grams",
+      "notes": ""
+    },
+    {
+      "name": "ground beef",
+      "quantity": 500,
+      "unit": "grams",
+      "notes": "minced"
+    },
+    {
+      "name": "onion",
+      "quantity": 1,
+      "unit": "large",
+      "notes": "diced"
+    },
+    {
+      "name": "garlic",
+      "quantity": 3,
+      "unit": "cloves",
+      "notes": "minced"
+    },
+    {
+      "name": "tomato passata",
+      "quantity": 700,
+      "unit": "grams",
+      "notes": ""
+    },
+    {
+      "name": "olive oil",
+      "quantity": 2,
+      "unit": "tablespoons",
+      "notes": ""
+    },
+    {
+      "name": "salt",
+      "quantity": 1,
+      "unit": "teaspoon",
+      "notes": "to taste"
+    },
+    {
+      "name": "black pepper",
+      "quantity": 0.5,
+      "unit": "teaspoon",
+      "notes": "freshly ground"
+    },
+    {
+      "name": "parmesan cheese",
+      "quantity": 50,
+      "unit": "grams",
+      "notes": "grated, for serving"
+    }
+  ],
+  "instructions": [
+    "Bring a large pot of salted water to boil for spaghetti.",
+    "Heat olive oil in a large pan over medium heat.",
+    "Add diced onion and cook until soft (about 5 minutes).",
+    "Add minced garlic and cook for 1 more minute.",
+    "Add ground beef and cook until browned, breaking up with a spoon.",
+    "Pour in tomato passata, season with salt and pepper.",
+    "Simmer sauce for 20-25 minutes, stirring occasionally.",
+    "Cook spaghetti according to package directions (usually 8-10 minutes).",
+    "Drain spaghetti and toss with sauce.",
+    "Serve with grated parmesan cheese."
+  ],
+  "notes": "Can substitute beef with pork or turkey mince. Freezes well.",
+  "tags": ["weeknight", "freezable", "crowd-pleaser"],
+  "rating": 5,
+  "dietary": {
+    "vegetarian": false,
+    "vegan": false,
+    "gluten_free": false,
+    "dairy_free": false
+  }
+}

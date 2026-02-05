@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/shopping-list.css">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; background: #F2F2F7; padding: 20px; }
+    </style>
+</head>
+<body>
+    <h1 class="text-2xl font-bold mb-6">Smart Shopping List Test</h1>
+    <p class="mb-6 text-gray-600">Testing the smart categorized shopping list with fruits & vegetables grouped together, meat grouped together, dry ingredients grouped, etc.</p>
+    
+    <div id="shopping-list-test"></div>
+    
+    <script src="js/shopping-list-manager.js"></script>
+    <script>
+        lucide.createIcons();
+        
+        // Sample data with items from different categories
+        const testItems = {
+            totalItems: 15,
+            categorized: {
+                'Fruits & Vegetables': [
+                    { name: 'Apples', quantity: 6, unit: 'pieces', fromRecipe: 'Snacks', checked: false },
+                    { name: 'Bananas', quantity: 5, unit: 'pieces', fromRecipe: 'Breakfast', checked: false },
+                    { name: 'Tomatoes', quantity: 4, unit: 'pieces', fromRecipe: 'Salad', checked: false },
+                    { name: 'Carrots', quantity: 3, unit: 'pieces', fromRecipe: 'Soup', checked: false },
+                    { name: 'Lettuce', quantity: 1, unit: 'head', fromRecipe: 'Salad', checked: false },
+                    { name: 'Potatoes', quantity: 1, unit: 'kg', fromRecipe: 'Mashed', checked: false }
+                ],
+                'Meat & Seafood': [
+                    { name: 'Chicken Breast', quantity: 2, unit: 'pieces', fromRecipe: 'Stir Fry', checked: false },
+                    { name: 'Ground Beef', quantity: 500, unit: 'g', fromRecipe: 'Bolognese', checked: false },
+                    { name: 'Salmon', quantity: 2, unit: 'fillets', fromRecipe: 'Dinner', checked: false }
+                ],
+                'Dairy & Eggs': [
+                    { name: 'Milk', quantity: 2, unit: 'L', fromRecipe: 'General', checked: false },
+                    { name: 'Eggs', quantity: 12, unit: 'pieces', fromRecipe: 'Breakfast', checked: false },
+                    { name: 'Cheese', quantity: 250, unit: 'g', fromRecipe: 'Sandwiches', checked: false }
+                ],
+                'Dry Goods': [
+                    { name: 'Rice', quantity: 1, unit: 'kg', fromRecipe: 'Meals', checked: false },
+                    { name: 'Pasta', quantity: 500, unit: 'g', fromRecipe: 'Pasta', checked: false },
+                    { name: 'Flour', quantity: 1, unit: 'kg', fromRecipe: 'Baking', checked: false }
+                ],
+                'Beverages': [
+                    { name: 'Coffee', quantity: 1, unit: 'bag', fromRecipe: 'General', checked: false }
+                ]
+            }
+        };
+        
+        // Add some custom items
+        shoppingListManager.addCustomItem('Chocolate', 1, 'bar', 'Other');
+        shoppingListManager.addCustomItem('Toilet Paper', 12, 'rolls', 'Other');
+        
+        // Combine and render
+        const combinedList = shoppingListManager.combineLists(testItems);
+        const shoppingListUI = shoppingListManager.createShoppingListUI(combinedList);
+        
+        document.getElementById('shopping-list-test').appendChild(shoppingListUI);
+        
+        // Refresh icons
+        setTimeout(() => {
+            lucide.createIcons();
+        }, 100);
+    </script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+/* Shopping List Styles - Apple Balance */
+
+/* Shopping List Container */
+.shopping-list-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Shopping Stats - Apple Style */
+.shopping-stats {
+    background: #FFFFFF;
+    border-radius: 16px;
+    border: 1px solid #E5E5EA;
+    padding: 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.shopping-stats h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1D1D1F;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+}
+
+.shopping-stats p {
+    color: #8E8E93;
+    font-size: 15px;
+    margin-bottom: 16px;
+}
+
+/* Category Sections - Apple Card Style */
+.category-section {
+    margin-bottom: 20px;
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #F2F2F7;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.category-header:hover {
+    background: #E5E5EA;
+}
+
+.category-header h4 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1D1D1F;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.category-count {
+    font-size: 15px;
+    font-weight: 500;
+    color: #8E8E93;
+    background: #FFFFFF;
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px solid #E5E5EA;
+}
+
+/* Shopping Items - Apple List Style */
+.shopping-items-container {
+    background: #FFFFFF;
+    border-radius: 12px;
+    border: 1px solid #E5E5EA;
+    overflow: hidden;
+}
+
+.shopping-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-bottom: 1px solid #F2F2F7;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.shopping-item:last-child {
+    border-bottom: none;
+}
+
+.shopping-item:hover {
+    background: #F9F9FB;
+}
+
+/* Checkbox - Apple Style */
+.shopping-item-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #C7C7CC;
+    border-radius: 6px;
+    margin-right: 12px;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.shopping-item-checkbox.checked {
+    background: #007AFF;
+    border-color: #007AFF;
+}
+
+.shopping-item-checkbox.checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+}
+
+/* Item Content - Single Line */
+.item-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 32px;
+    overflow: hidden;
+}
+
+.item-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1D1D1F;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    margin-right: 12px;
+}
+
+.item-details {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.item-quantity {
+    font-weight: 600;
+    color: #007AFF;
+    font-size: 13px;
+    min-width: 35px;
+    text-align: right;
+}
+
+.item-unit {
+    color: #8E8E93;
+    font-size: 12px;
+    min-width: 25px;
+}
+
+/* Meal Abbreviations */
+.item-meal {
+    font-size: 11px;
+    color: #34C759;
+    background: rgba(52, 199, 89, 0.1);
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.item-source {
+    font-size: 11px;
+    color: #007AFF;
+    background: rgba(0, 122, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+/* Checked State */
+.shopping-item.checked .item-name {
+    color: #8E8E93;
+    text-decoration: line-through;
+}
+
+.shopping-item.checked .item-details {
+    color: #AEAEB2;
+}
+
+.shopping-item.checked .item-source {
+    opacity: 0.6;
+}
+
+/* Remove Button - Subtle Apple Style */
+.remove-item {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FF3B30;
+    opacity: 0;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.shopping-item:hover .remove-item {
+    opacity: 1;
+    background: rgba(255, 59, 48, 0.1);
+}
+
+.remove-item:hover {
+    background: #FF3B30;
+    color: white;
+}
+
+/* Category Colors - Apple Subtle */
+.category-header[data-category="Fruits & Vegetables"] h4 { color: #34C759; }
+.category-header[data-category="Meat & Seafood"] h4 { color: #FF3B30; }
+.category-header[data-category="Dairy & Eggs"] h4 { color: #FF9500; }
+.category-header[data-category="Dry Goods"] h4 { color: #AF52DE; }
+.category-header[data-category="Canned & Jarred"] h4 { color: #FF2D55; }
+.category-header[data-category="Sauces & Condiments"] h4 { color: #5856D6; }
+.category-header[data-category="Baking"] h4 { color: #5AC8FA; }
+.category-header[data-category="Beverages"] h4 { color: #007AFF; }
+.category-header[data-category="Frozen"] h4 { color: #8E8E93; }
+.category-header[data-category="Other"] h4 { color: #AEAEB2; }
+.category-header[data-category="Custom Items"] h4 { color: #C7C7CC; }
+
+/* Add Item Modal */
+#add-item-modal {
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#add-item-modal input,
+#add-item-modal select {
+    font-size: 16px; /* Prevent zoom on iOS */
+}
+
+#add-item-modal input:focus,
+#add-item-modal select:focus {
+    border-color: #007AFF;
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+    outline: none;
+}
+
+/* Category Color Coding */
+.category-section:nth-child(1) h4 { border-left-color: #34C759; } /* Fruits & Vegetables */
+.category-section:nth-child(2) h4 { border-left-color: #FF3B30; } /* Meat & Seafood */
+.category-section:nth-child(3) h4 { border-left-color: #FFCC00; } /* Dairy & Eggs */
+.category-section:nth-child(4) h4 { border-left-color: #AF52DE; } /* Dry Goods */
+.category-section:nth-child(5) h4 { border-left-color: #FF9500; } /* Canned & Jarred */
+.category-section:nth-child(6) h4 { border-left-color: #5856D6; } /* Sauces & Condiments */
+.category-section:nth-child(7) h4 { border-left-color: #5AC8FA; } /* Baking */
+.category-section:nth-child(8) h4 { border-left-color: #007AFF; } /* Beverages */
+.category-section:nth-child(9) h4 { border-left-color: #8E8E93; } /* Frozen */
+.category-section:nth-child(10) h4 { border-left-color: #AEAEB2; } /* Other */
+.category-section:nth-child(11) h4 { border-left-color: #C7C7CC; } /* Custom Items */
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: #8E8E93;
+}
+
+.empty-state i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: #C7C7CC;
+}
+
+/* Toast Notifications */
+.toast {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+    .shopping-stats {
+        padding: 16px;
+    }
+    
+    .shopping-stats h3 {
+        font-size: 20px;
+    }
+    
+    .category-section h4 {
+        font-size: 16px;
+    }
+    
+    .shopping-item {
+        padding: 12px;
+    }
+    
+    .remove-item {
+        opacity: 1; /* Always show on mobile */
+    }
+}
+
+/* Print Styles */
+@media print {
+    .shopping-stats,
+    .remove-item,
+    #add-custom-item {
+        display: none !important;
+    }
+    
+    .shopping-item {
+        border-bottom: 1px solid #ddd !important;
+    }
+    
+    .shopping-item input[type="checkbox"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #000;
+        border-radius: 4px;
+        margin-right: 10px;
+    }
+    
+    .category-section {
+        break-inside: avoid;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .category-section h4 {
+        color: #FFFFFF;
+    }
+    
+    .shopping-item:hover {
+        background-color: #2C2C2E;
+    }
+    
+    .shopping-item.item-checked {
+        background-color: #1C1C1E;
+    }
+    
+    .empty-state {
+        color: #8E8E93;
+    }
+}

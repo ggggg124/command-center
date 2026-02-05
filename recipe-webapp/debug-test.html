@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .test { margin: 20px 0; padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>Recipe App Debug Test</h1>
+    
+    <div class="test" id="test1">
+        <h3>Test 1: Load JavaScript Files</h3>
+        <div id="test1-result">Testing...</div>
+    </div>
+    
+    <div class="test" id="test2">
+        <h3>Test 2: Recipe Manager</h3>
+        <div id="test2-result">Testing...</div>
+    </div>
+    
+    <div class="test" id="test3">
+        <h3>Test 3: Shopping List Manager</h3>
+        <div id="test3-result">Testing...</div>
+    </div>
+    
+    <div class="test" id="test4">
+        <h3>Test 4: Click Functionality</h3>
+        <button onclick="testClick()">Test Click</button>
+        <div id="test4-result">Click the button</div>
+    </div>
+    
+    <script>
+        console.log('=== DEBUG TEST STARTED ===');
+        
+        // Test 1: Load JS files
+        function testFileLoad() {
+            const files = [
+                'js/recipe-manager.js',
+                'js/shopping-list-manager.js',
+                'js/meal-planner.js',
+                'js/ai-suggestions.js',
+                'js/recipe-editor-fixed.js',
+                'js/meal-photos.js'
+            ];
+            
+            let allLoaded = true;
+            files.forEach(file => {
+                try {
+                    const script = document.createElement('script');
+                    script.src = file;
+                    document.head.appendChild(script);
+                    console.log(`✓ Loaded: ${file}`);
+                } catch (e) {
+                    console.error(`✗ Failed to load: ${file}`, e);
+                    allLoaded = false;
+                }
+            });
+            
+            const result = document.getElementById('test1-result');
+            if (allLoaded) {
+                result.innerHTML = '✓ All JavaScript files loaded successfully';
+                result.parentElement.className = 'test success';
+            } else {
+                result.innerHTML = '✗ Some JavaScript files failed to load (check console)';
+                result.parentElement.className = 'test error';
+            }
+        }
+        
+        // Test 2: Recipe Manager
+        function testRecipeManager() {
+            try {
+                if (typeof RecipeManager !== 'undefined') {
+                    const manager = new RecipeManager();
+                    const recipes = manager.getAllRecipes();
+                    const result = document.getElementById('test2-result');
+                    result.innerHTML = `✓ Recipe Manager working (${recipes.length} recipes loaded)`;
+                    result.parentElement.className = 'test success';
+                    console.log('✓ Recipe Manager test passed');
+                } else {
+                    throw new Error('RecipeManager not defined');
+                }
+            } catch (e) {
+                const result = document.getElementById('test2-result');
+                result.innerHTML = `✗ Recipe Manager error: ${e.message}`;
+                result.parentElement.className = 'test error';
+                console.error('✗ Recipe Manager test failed:', e);
+            }
+        }
+        
+        // Test 3: Shopping List Manager
+        function testShoppingList() {
+            try {
+                if (typeof ShoppingListManager !== 'undefined') {
+                    const manager = new ShoppingListManager();
+                    const result = document.getElementById('test3-result');
+                    result.innerHTML = '✓ Shopping List Manager working';
+                    result.parentElement.className = 'test success';
+                    console.log('✓ Shopping List test passed');
+                } else {
+                    throw new Error('ShoppingListManager not defined');
+                }
+            } catch (e) {
+                const result = document.getElementById('test3-result');
+                result.innerHTML = `✗ Shopping List error: ${e.message}`;
+                result.parentElement.className = 'test error';
+                console.error('✗ Shopping List test failed:', e);
+            }
+        }
+        
+        // Test 4: Click functionality
+        function testClick() {
+            const result = document.getElementById('test4-result');
+            result.innerHTML = '✓ Click event working';
+            result.parentElement.className = 'test success';
+            console.log('✓ Click test passed');
+        }
+        
+        // Run tests
+        setTimeout(() => {
+            testFileLoad();
+            setTimeout(() => {
+                testRecipeManager();
+                testShoppingList();
+            }, 1000);
+        }, 500);
+        
+        // Log all errors
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            console.error('Global error:', msg, 'at', url, 'line', lineNo);
+            return false;
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{
+  "sessions": {
+    "admin": {
+      "name": "Admin Bot",
+      "sessionKey": "agent:main:telegram:admin:dm:5086862672",
+      "context": "admin",
+      "persona": "Technical system administrator focused on development, OpenClaw management, and building tools. Proactive, detail-oriented, security-conscious.",
+      "historyFile": "session-admin-history.json",
+      "lastActive": "2026-02-05T12:51:00Z",
+      "messageCount": 0,
+      "topics": ["development", "system_management", "command_center"],
+      "telegramAccount": "admin",
+      "botToken": "7902539700:AAEjquwbU4VTPAtg4Gvu9lzihYj7tpOwkaA"
+    },
+    "home": {
+      "name": "Home Bot",
+      "sessionKey": "agent:main:telegram:home:dm:5086862672",
+      "context": "home",
+      "persona": "Friendly family assistant focused on meal planning, grocery management, family calendar, and home tasks. Warm, patient, helpful, family-oriented.",
+      "historyFile": "session-home-history.json",
+      "lastActive": "2026-02-05T12:59:00Z",
+      "messageCount": 1,
+      "topics": ["family", "meals", "calendar", "grocery", "home_tasks", "shopping", "shopping_list", "recipes", "fruit", "vegetables", "food", "cooking"],
+      "telegramAccount": "home",
+      "botToken": "8542754857:AAHNPMf4w8iq6_E4OazC19XuZjg2tUEVS7s"
+    },
+    "work": {
+      "name": "Work Bot",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "persona": "Professional business assistant focused on project management, client communication, scheduling, and business analytics. Concise, efficient, data-driven.",
+      "historyFile": "session-work-history.json",
+      "lastActive": null,
+      "messageCount": 0,
+      "topics": ["projects", "clients", "email", "scheduling", "business", "backlog", "system_status"],
+      "telegramAccount": "work",
+      "botToken": "8491589638:AAF4Coj8TvUeIT-dWD_lc4qujv9cCsxifJI"
+    }
+  },
+  "sessionMapping": {
+    "agent:main:telegram:admin:dm:5086862672": "admin",
+    "agent:main:telegram:home:dm:5086862672": "home",
+    "agent:main:telegram:work:dm:5086862672": "work",
+    "agent:main:main": "admin"
+  },
+  "activeSession": null,
+  "sessionCommands": {
+    "/session home": "Switch to home bot session",
+    "/session work": "Switch to work bot session",
+    "/session admin": "Switch to admin bot session",
+    "/session list": "List all sessions",
+    "/session info": "Show current session info",
+    "/session history": "Show session history"
+  },
+  "autoSwitchPatterns": {
+    "home": ["meal", "grocery", "family", "recipe", "calendar", "home", "clean", "shopping", "cook", "food", "fruit", "vegetable", "list", "dinner", "lunch", "breakfast"],
+    "work": ["project", "client", "email", "business", "meeting", "schedule", "work", "backlog", "status", "system", "report", "analytics", "data"],
+    "admin": ["build", "develop", "code", "config", "setup", "openclaw", "system", "debug", "fix", "doctor", "technical", "server", "api"]
+  },
+  "created": "2026-02-05T12:51:00Z",
+  "version": "2.0",
+  "notes": "FIXED: Session keys now match actual Telegram session keys. Added session mapping for lookup. Removed global activeSession - each Telegram session maintains its own active state."
+}

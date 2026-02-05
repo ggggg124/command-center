@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Recipe App Fixes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/shopping-list.css">
+    <link rel="stylesheet" href="css/recipe-manager.css">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; background: #F2F2F7; font-size: 14px; padding: 20px; }
+        .test-section { margin-bottom: 40px; }
+        .test-title { font-size: 18px; font-weight: bold; margin-bottom: 16px; color: #1D1D1F; }
+    </style>
+</head>
+<body>
+    <h1 class="text-2xl font-bold mb-8">Recipe App Fixes Test</h1>
+    
+    <div class="test-section">
+        <div class="test-title">1. Shopping List - Single Line Items with Meal Abbreviations</div>
+        <div id="shopping-test"></div>
+    </div>
+    
+    <div class="test-section">
+        <div class="test-title">2. Recipe Cards - Click to View (not just favorite)</div>
+        <div id="recipe-test" class="grid gap-4"></div>
+    </div>
+    
+    <script src="js/shopping-list-manager.js"></script>
+    <script src="js/recipe-manager.js"></script>
+    <script>
+        lucide.createIcons();
+        
+        // Test 1: Shopping List with meal abbreviations
+        const shoppingManager = new ShoppingListManager();
+        
+        const testShoppingItems = {
+            totalItems: 5,
+            categorized: {
+                'Fruits & Vegetables': [
+                    { name: 'Tomatoes', quantity: 4, unit: 'pieces', fromRecipe: 'Spaghetti Bolognese', checked: false },
+                    { name: 'Carrots', quantity: 3, unit: 'pieces', fromRecipe: 'Vegetable Curry', checked: false }
+                ],
+                'Meat & Seafood': [
+                    { name: 'Ground Beef', quantity: 500, unit: 'g', fromRecipe: 'Spaghetti Bolognese', checked: false },
+                    { name: 'Chicken Breast', quantity: 2, unit: 'pieces', fromRecipe: 'Chicken Stir Fry', checked: false }
+                ],
+                'Dry Goods': [
+                    { name: 'Spaghetti', quantity: 400, unit: 'g', fromRecipe: 'Spaghetti Bolognese', checked: false }
+                ]
+            }
+        };
+        
+        const combinedList = shoppingManager.combineLists(testShoppingItems);
+        const shoppingUI = shoppingManager.createShoppingListUI(combinedList);
+        document.getElementById('shopping-test').appendChild(shoppingUI);
+        
+        // Test 2: Recipe Cards
+        const recipeManager = new RecipeManager();
+        const recipes = recipeManager.getAllRecipes();
+        
+        document.getElementById('recipe-test').innerHTML = recipes.slice(0, 3).map(r => `
+            <div class="recipe-card ${r.favorite ? 'favorite' : ''}">
+                <div class="recipe-card-header">
+                    <span class="font-bold" onclick="alert('Would open recipe: ${r.name}')" style="cursor: pointer;">${r.name}</span>
+                    <button onclick="alert('Would toggle favorite')" class="text-yellow-500 bg-transparent border-none p-0">
+                        ${r.favorite ? '★' : '☆'}
+                    </button>
+                </div>
+                <div class="recipe-card-body" onclick="alert('Would open recipe: ${r.name}')" style="cursor: pointer;">
+                    <div class="text-sm text-gray-500">${r.category} • ${r.cookingTime} min</div>
+                    <div class="text-xs text-gray-400 mt-1">${r.ingredients.length} ingredients</div>
+                </div>
+            </div>
+        `).join('');
+        
+        // Refresh icons
+        setTimeout(() => {
+            lucide.createIcons();
+        }, 100);
+        
+        console.log('Shopping list meal abbreviations test:');
+        console.log('- Tomatoes should show: SPG (Spaghetti Bolognese)');
+        console.log('- Carrots should show: CRY (Vegetable Curry)');
+        console.log('- Ground Beef should show: SPG (Spaghetti Bolognese)');
+        console.log('- Chicken Breast should show: STF (Chicken Stir Fry)');
+        console.log('- Spaghetti should show: SPG (Spaghetti Bolognese)');
+    </script>
+</body>
+</html>

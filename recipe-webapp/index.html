@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Dinner & Co. | Recipe Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/shopping-list.css">
+    <link rel="stylesheet" href="css/recipe-manager.css">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; background: #F2F2F7; font-size: 14px; }
+        .glass { background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .accent { color: #007AFF; }
+        .btn-primary { background: #007AFF; color: white; border-radius: 10px; font-weight: 600; padding: 10px 16px; font-size: 14px; transition: all 0.2s; }
+        .btn-primary:active { transform: scale(0.95); }
+        .view { font-size: 14px; }
+        h1 { font-size: 20px; }
+        h2 { font-size: 18px; }
+        h3 { font-size: 16px; }
+    </style>
+</head>
+<body class="pb-24">
+    <!-- Header -->
+    <header class="sticky top-0 glass z-50 px-6 py-4 border-b border-gray-200">
+        <div class="flex justify-between items-center max-w-lg mx-auto">
+            <h1 id="view-title" class="text-2xl font-bold tracking-tight">Weekly Planner</h1>
+            <div class="flex gap-3">
+                <button id="refresh-view" class="text-blue-600"><i data-lucide="refresh-cw" class="w-6 h-6"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-lg mx-auto p-6">
+        
+        <!-- PLANNER VIEW -->
+        <section id="planner-view" class="view">
+            <div class="ios-card p-6 flex items-center justify-between mb-6">
+                <div>
+                    <p class="text-sm text-gray-500 uppercase font-bold tracking-tight">Your Week</p>
+                    <h2 class="text-xl font-bold" id="plan-status">Dinner Plan Ready</h2>
+                </div>
+                <button class="btn-primary" id="generate-new-plan">New Plan</button>
+            </div>
+            
+            <div id="plan-list" class="space-y-4">
+                <!-- Day cards injected here -->
+            </div>
+        </section>
+
+        <!-- RECIPES VIEW -->
+        <section id="recipes-view" class="view hidden">
+            <div id="ai-suggestions-container" class="mb-8">
+                <!-- AI suggestion card injected here -->
+            </div>
+
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Your Cookbook</h3>
+                <div class="flex gap-2">
+                    <button class="text-sm px-3 py-1 bg-white rounded-full border border-gray-200" id="filter-favs">⭐ Favorites</button>
+                </div>
+            </div>
+            
+            <div id="recipe-list" class="grid gap-4">
+                <!-- Recipe cards injected here -->
+            </div>
+        </section>
+
+        <!-- GROCERIES VIEW -->
+        <section id="groceries-view" class="view hidden">
+            <div id="smart-shopping-list">
+                <!-- Injected via shopping-list-manager.js -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 glass border-t border-gray-200 px-8 py-4">
+        <div class="flex justify-between max-w-lg mx-auto">
+            <button onclick="switchView('planner')" class="nav-btn flex flex-col items-center accent" data-view="planner">
+                <i data-lucide="calendar"></i>
+                <span class="text-[10px] mt-1 font-medium">Planner</span>
+            </button>
+            <button onclick="switchView('recipes')" class="nav-btn flex flex-col items-center text-gray-400" data-view="recipes">
+                <i data-lucide="book"></i>
+                <span class="text-[10px] mt-1 font-medium">Recipes</span>
+            </button>
+            <button onclick="switchView('groceries')" class="nav-btn flex flex-col items-center text-gray-400" data-view="groceries">
+                <i data-lucide="shopping-cart"></i>
+                <span class="text-[10px] mt-1 font-medium">Groceries</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- SWAP MODAL -->
+    <div id="swap-modal" class="fixed inset-0 bg-black/50 hidden z-[60] p-6 items-end">
+        <div class="bg-white w-full max-w-lg mx-auto rounded-t-3xl p-6 animate-slide-up">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold">Change Recipe</h3>
+                <button onclick="closeModal('swap-modal')" class="text-gray-400"><i data-lucide="x"></i></button>
+            </div>
+            <div id="swap-options" class="grid gap-3 max-h-[60vh] overflow-y-auto pb-6">
+                <!-- Options injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- RECIPE DETAIL MODAL -->
+    <div id="recipe-modal" class="fixed inset-0 bg-black/50 hidden z-[60] p-4 items-center justify-center">
+        <div class="bg-white w-full max-w-lg mx-auto rounded-2xl max-h-[90vh] overflow-hidden">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center gap-3">
+                        <div id="recipe-photo" class="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-2xl"></div>
+                        <h3 id="recipe-title" class="text-xl font-bold"></h3>
+                    </div>
+                    <button onclick="closeModal('recipe-modal')" class="text-gray-400"><i data-lucide="x"></i></button>
+                </div>
+                <div id="recipe-detail" class="space-y-6 max-h-[70vh] overflow-y-auto">
+                    <!-- Recipe details injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/recipe-manager.js"></script>
+    <script src="js/shopping-list-manager.js"></script>
+    <script src="js/meal-planner.js"></script>
+    <script src="js/ai-suggestions.js"></script>
+    <script src="js/recipe-editor-fixed.js"></script>
+    <script src="js/meal-photos.js"></script>
+
+    <script>
+        // Init managers
+        const manager = new RecipeManager();
+        const planner = initMealPlanner(manager);
+        const ai = initAISuggestions(manager);
+        let recipeEditor = null;
+
+        function switchView(viewName) {
+            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+            document.getElementById(viewName + '-view').classList.remove('hidden');
+            
+            // Update UI
+            document.querySelectorAll('.nav-btn').forEach(b => {
+                b.classList.remove('accent');
+                b.classList.add('text-gray-400');
+            });
+            document.querySelector(`[data-view="${viewName}"]`).classList.add('accent');
+            document.querySelector(`[data-view="${viewName}"]`).classList.remove('text-gray-400');
+            
+            const titles = { planner: 'Weekly Planner', recipes: 'Recipe Manager', groceries: 'Shopping List' };
+            document.getElementById('view-title').innerText = titles[viewName];
+            
+            renderView(viewName);
+        }
+
+        function renderView(view) {
+            if (view === 'planner') renderPlanner();
+            if (view === 'recipes') renderRecipes();
+            if (view === 'groceries') renderGroceries();
+            lucide.createIcons();
+        }
+
+        function renderPlanner() {
+            const plan = planner.currentPlan || planner.generateWeeklyPlan();
+            const container = document.getElementById('plan-list');
+            
+            container.innerHTML = plan.map(day => `
+                <div class="meal-plan-day">
+                    <div class="meal-plan-header">
+                        <span class="meal-plan-day-name">${day.day}</span>
+                        <span class="meal-plan-day-type">${day.type}</span>
+                    </div>
+                    <div class="meal-plan-content">
+                        ${day.recipe ? `
+                            <div class="flex justify-between items-center">
+                                <div class="meal-plan-recipe">
+                                    <div class="meal-plan-recipe-info">
+                                        <div class="meal-plan-recipe-name">${day.recipe.name} ${day.isFavorite ? '⭐' : ''}</div>
+                                        <div class="text-sm text-gray-500">${day.recipe.category} • ${day.recipe.cookingTime}m</div>
+                                    </div>
+                                </div>
+                                <button onclick="openSwap('${day.day}')" class="text-blue-600 font-semibold text-sm">Change</button>
+                            </div>
+                        ` : '<div class="text-gray-400 italic">No cooking tonight</div>'}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openSwap(day) {
+            const options = planner.swapRecipe(day);
+            const container = document.getElementById('swap-options');
+            
+            container.innerHTML = options.map(r => `
+                <button onclick="applySwap('${day}', '${r.id}')" class="flex justify-between items-center p-4 bg-gray-50 rounded-xl text-left hover:bg-blue-50">
+                    <div>
+                        <div class="font-bold">${r.name}</div>
+                        <div class="text-xs text-gray-500">${r.category} • ${r.cookingTime}m</div>
+                    </div>
+                    <i data-lucide="chevron-right" class="w-4 h-4 text-gray-300"></i>
+                </button>
+            `).join('');
+            
+            document.getElementById('swap-modal').classList.remove('hidden');
+            document.getElementById('swap-modal').classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function applySwap(day, id) {
+            planner.applySwap(day, id);
+            closeModal('swap-modal');
+            renderPlanner();
+        }
+
+        function renderRecipes() {
+            const recipes = manager.getAllRecipes();
+            const container = document.getElementById('recipe-list');
+            
+            // Show AI Suggestion if available
+            const suggestions = ai.getSuggestions();
+            const aiContainer = document.getElementById('ai-suggestions-container');
+            if (suggestions.length > 0) {
+                aiContainer.innerHTML = '';
+                aiContainer.appendChild(ai.createSuggestionCard(suggestions[0]));
+                
+                // Add event listeners to card
+                aiContainer.querySelector('.use-suggestion').onclick = () => {
+                    ai.addAIGeneratedRecipe(suggestions[0]);
+                    renderRecipes();
+                };
+            }
+
+            container.innerHTML = recipes.map(r => `
+                <div class="recipe-card ${r.favorite ? 'favorite' : ''}">
+                    <div class="recipe-card-header">
+                        <span class="font-bold" onclick="viewRecipe('${r.id}')" style="cursor: pointer;">${r.name}</span>
+                        <button onclick="toggleFav('${r.id}')" class="text-yellow-500 bg-transparent border-none p-0">
+                            ${r.favorite ? '★' : '☆'}
+                        </button>
+                    </div>
+                    <div class="recipe-card-body" onclick="viewRecipe('${r.id}')" style="cursor: pointer;">
+                        <div class="text-sm text-gray-500">${r.category} • ${r.cookingTime} min</div>
+                        <div class="text-xs text-gray-400 mt-1">${r.ingredients.length} ingredients</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleFav(id) {
+            manager.toggleFavorite(id);
+            renderRecipes();
+        }
+
+        function viewRecipe(id) {
+            const recipe = manager.getRecipeById(id);
+            if (!recipe) return;
+            
+            document.getElementById('recipe-title').innerText = recipe.name;
+            
+            // Show meal photo
+            const photoElement = document.getElementById('recipe-photo');
+            const photo = mealPhotos.getPhotoForRecipe(recipe.name);
+            photoElement.textContent = photo;
+            
+            const container = document.getElementById('recipe-detail');
+            
+            container.innerHTML = `
+                <div class="flex justify-between items-center mb-4">
+                    <span class="px-3 py-1 bg-gray-100 rounded-full text-sm">${recipe.category}</span>
+                    <span class="text-gray-500">${recipe.cookingTime} min</span>
+                </div>
+                
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h4 class="font-bold text-gray-700">Ingredients</h4>
+                        <button onclick="editRecipe('${recipe.id}')" class="text-sm text-blue-600 flex items-center gap-1">
+                            <i data-lucide="edit" class="h-4 w-4"></i> Edit
+                        </button>
+                    </div>
+                    <ul class="space-y-2">
+                        ${recipe.ingredients.map(ing => `
+                            <li class="flex justify-between items-center py-2 border-b border-gray-100">
+                                <span>${ing.name}</span>
+                                <span class="font-medium text-blue-600">${ing.quantity} ${ing.unit}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+                
+                ${recipe.instructions ? `
+                <div>
+                    <h4 class="font-bold mb-3 text-gray-700">Instructions</h4>
+                    <div class="text-gray-600 whitespace-pre-line">${recipe.instructions}</div>
+                </div>
+                ` : ''}
+                
+                <div class="grid grid-cols-2 gap-3 pt-4 border-t">
+                    <button onclick="toggleFav('${recipe.id}')" class="py-3 rounded-lg ${recipe.favorite ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800'}">
+                        ${recipe.favorite ? '★ Remove Favorite' : '☆ Add Favorite'}
+                    </button>
+                    <button onclick="changePhoto('${recipe.name}')" class="py-3 rounded-lg bg-gray-100 text-gray-800">
+                        📷 Change Photo
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('recipe-modal').classList.remove('hidden');
+            document.getElementById('recipe-modal').classList.add('flex');
+            lucide.createIcons();
+        }
+        
+        function editRecipe(id) {
+            // Initialize editor if needed
+            if (!recipeEditor) {
+                recipeEditor = initRecipeEditor(manager);
+            }
+            
+            // Close recipe modal first
+            closeModal('recipe-modal');
+            
+            // Open editor
+            setTimeout(() => {
+                recipeEditor.openEditor(id);
+            }, 300);
+        }
+        
+        function changePhoto(recipeName) {
+            const photoInterface = mealPhotos.createUploadInterface(recipeName);
+            
+            // Replace the buttons section with photo upload
+            const container = document.getElementById('recipe-detail');
+            const buttonsSection = container.querySelector('.grid.grid-cols-2');
+            if (buttonsSection) {
+                buttonsSection.replaceWith(photoInterface);
+            }
+        }
+
+        function renderGroceries() {
+            const items = planner.getShoppingList();
+            const combined = shoppingListManager.combineLists({ categorized: {} }, items);
+            const ui = shoppingListManager.createShoppingListUI(combined);
+            const container = document.getElementById('smart-shopping-list');
+            container.innerHTML = '';
+            container.appendChild(ui);
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
+        }
+
+        document.getElementById('generate-new-plan').onclick = () => {
+            planner.generateWeeklyPlan();
+            renderPlanner();
+        };
+
+        // Listen for recipe updates
+        window.addEventListener('recipeUpdated', () => {
+            renderRecipes();
+        });
+
+        // Boot
+        window.onload = () => {
+            switchView('planner');
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+{
+  "session": "work",
+  "messages": [
+    {
+      "id": "msg_001",
+      "timestamp": "2026-02-05T12:51:00Z",
+      "role": "system",
+      "content": "Work bot session initialized. Ready for business operations, project management, and client communication.",
+      "context": "initialization"
+    }
+  ],
+  "summary": "Work bot session for business operations, project management, client communication, and scheduling.",
+  "created": "2026-02-05T12:51:00Z",
+  "lastUpdated": "2026-02-05T12:51:00Z",
+  "entries": [
+    {
+      "timestamp": "2026-02-05T09:17:29.762Z",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "message": "Add milk to shopping list",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "home",
+        "matches": [
+          "shopping"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:17:29.774Z",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "message": "Schedule meeting with client",
+      "analysis": {
+        "isMisrouted": false,
+        "recommendedContext": "work",
+        "matches": [
+          "client",
+          "meeting",
+          "schedule"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:19:33.557Z",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "message": "Add chicken and vegetables to shopping list for dinner recipe",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "home",
+        "matches": [
+          "recipe",
+          "shopping"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:24:24.603Z",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "message": "Add milk to shopping list",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "home",
+        "matches": [
+          "shopping",
+          "shopping list"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:24:24.613Z",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "message": "Schedule meeting with client",
+      "analysis": {
+        "isMisrouted": false,
+        "recommendedContext": "work",
+        "matches": [
+          "client",
+          "meeting",
+          "schedule"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:24:30.050Z",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "message": "recipe app",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "home",
+        "matches": [
+          "recipe"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:24:34.942Z",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "message": "shopping list",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "home",
+        "matches": [
+          "shopping",
+          "shopping list"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:24:39.627Z",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "message": "meal plan",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "home",
+        "matches": [
+          "meal"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:24:45.233Z",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "message": "work project",
+      "analysis": {
+        "isMisrouted": false,
+        "recommendedContext": "work",
+        "matches": [
+          "project",
+          "work"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:24:50.872Z",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "message": "system status",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "admin",
+        "matches": [
+          "system",
+          "status"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:24:55.954Z",
+      "sessionKey": "agent:main:telegram:work:dm:5086862672",
+      "context": "work",
+      "message": "backup",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "admin",
+        "matches": [
+          "backup"
+        ]
+      }
+    }
+  ]
+}

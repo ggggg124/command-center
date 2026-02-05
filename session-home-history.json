@@ -1,0 +1,105 @@
+{
+  "session": "home",
+  "messages": [
+    {
+      "id": "msg_001",
+      "timestamp": "2026-02-05T12:51:00Z",
+      "role": "system",
+      "content": "Home bot session initialized. Ready for family management, meal planning, and home tasks.",
+      "context": "initialization"
+    },
+    {
+      "id": "msg_002",
+      "timestamp": "2026-02-05T12:59:00Z",
+      "role": "user",
+      "content": "test home bot",
+      "context": "testing"
+    }
+  ],
+  "summary": "Home bot session for family management, meal planning, calendar, and home tasks.",
+  "created": "2026-02-05T12:51:00Z",
+  "lastUpdated": "2026-02-05T12:51:00Z",
+  "entries": [
+    {
+      "timestamp": "2026-02-05T09:17:29.766Z",
+      "sessionKey": "agent:main:telegram:home:dm:5086862672",
+      "context": "home",
+      "message": "Check system backup status",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "work",
+        "matches": [
+          "status",
+          "system"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:17:29.771Z",
+      "sessionKey": "agent:main:telegram:home:dm:5086862672",
+      "context": "home",
+      "message": "What should we have for dinner?",
+      "analysis": {
+        "isMisrouted": false,
+        "recommendedContext": "home",
+        "matches": []
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:19:33.561Z",
+      "sessionKey": "agent:main:telegram:home:dm:5086862672",
+      "context": "home",
+      "message": "Add chicken and vegetables to shopping list for dinner recipe",
+      "analysis": {
+        "isMisrouted": false,
+        "recommendedContext": "home",
+        "matches": [
+          "recipe",
+          "shopping"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:19:33.564Z",
+      "sessionKey": "agent:main:telegram:home:dm:5086862672",
+      "context": "home",
+      "message": "Check OpenClaw system backup status",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "work",
+        "matches": [
+          "status",
+          "system"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:24:24.608Z",
+      "sessionKey": "agent:main:telegram:home:dm:5086862672",
+      "context": "home",
+      "message": "Check system backup status",
+      "analysis": {
+        "isMisrouted": true,
+        "recommendedContext": "admin",
+        "matches": [
+          "system",
+          "status",
+          "backup"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-02-05T09:24:24.612Z",
+      "sessionKey": "agent:main:telegram:home:dm:5086862672",
+      "context": "home",
+      "message": "What should we have for dinner?",
+      "analysis": {
+        "isMisrouted": false,
+        "recommendedContext": "home",
+        "matches": [
+          "dinner"
+        ]
+      }
+    }
+  ]
+}

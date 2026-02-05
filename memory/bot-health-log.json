@@ -1,0 +1,29 @@
+[
+  {
+    "timestamp": "2026-02-05T03:14:56.838Z",
+    "rawOutput": "Checking channel status…\nGateway reachable.\n- Telegram admin (Admin Assistant): enabled, configured, running, in:6m ago, out:50m ago, mode:polling, token:config\n- Telegram home (Home Helper): enabled, configured, running, in:14m ago, out:1h ago, mode:polling, token:config\n- Telegram work (Business Assistant): enabled, configured, running, in:44m ago, out:1h ago, mode:polling, token:config\n\nTip: https://docs.openclaw.ai/cli#status adds gateway health probes to status output (requires a reachable gateway).\n",
+    "bots": {
+      "admin": {
+        "enabled": true,
+        "configured": true,
+        "running": true,
+        "lastIn": "6m ago",
+        "lastOut": "50m ago"
+      },
+      "home": {
+        "enabled": true,
+        "configured": true,
+        "running": true,
+        "lastIn": "14m ago",
+        "lastOut": "1h ago"
+      },
+      "work": {
+        "enabled": true,
+        "configured": true,
+        "running": true,
+        "lastIn": "44m ago",
+        "lastOut": "1h ago"
+      }
+    }
+  }
+]

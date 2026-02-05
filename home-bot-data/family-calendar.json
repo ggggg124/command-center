@@ -1,0 +1,152 @@
+{
+  "metadata": {
+    "name": "Family Calendar",
+    "owner": "ggggg1@gmail.com",
+    "created": "2026-02-05",
+    "version": "1.0",
+    "description": "Family calendar for home bot - meals, appointments, events"
+  },
+  "calendars": {
+    "family": {
+      "name": "Family Events",
+      "color": "#4285f4",
+      "description": "General family events and appointments"
+    },
+    "meals": {
+      "name": "Meal Planning",
+      "color": "#34a853",
+      "description": "Weekly meal plans and recipes"
+    },
+    "appointments": {
+      "name": "Appointments",
+      "color": "#ea4335",
+      "description": "Doctor, dentist, other appointments"
+    },
+    "school": {
+      "name": "School",
+      "color": "#fbbc05",
+      "description": "School events and activities"
+    },
+    "home": {
+      "name": "Home Maintenance",
+      "color": "#8e44ad",
+      "description": "Home tasks, cleaning, maintenance"
+    }
+  },
+  "events": [
+    {
+      "id": "sample_001",
+      "title": "Family Dinner",
+      "description": "Weekly family dinner",
+      "calendar": "family",
+      "date": "2026-02-05",
+      "time": "18:30",
+      "duration_minutes": 90,
+      "category": "meal",
+      "attendees": ["Don", "Wife"],
+      "location": "Home",
+      "reminders": ["1h", "30m"],
+      "recurring": {
+        "frequency": "weekly",
+        "day_of_week": "Wednesday"
+      },
+      "created": "2026-02-05T12:00:00Z",
+      "updated": "2026-02-05T12:00:00Z"
+    }
+  ],
+  "meal_plan": {
+    "current_week": "2026-W06",
+    "plans": {
+      "2026-W06": {
+        "monday": {
+          "meal": "Spaghetti Bolognese",
+          "recipe_id": "recipe_001",
+          "prep_time": 30,
+          "cook_time": 45,
+          "notes": "Make extra sauce for leftovers"
+        },
+        "tuesday": {
+          "meal": "Chicken Stir Fry",
+          "recipe_id": "recipe_002",
+          "prep_time": 20,
+          "cook_time": 15,
+          "notes": "Use fresh vegetables"
+        }
+      }
+    }
+  },
+  "grocery_lists": {
+    "current": {
+      "id": "list_001",
+      "week": "2026-W06",
+      "created": "2026-02-05T12:00:00Z",
+      "items": [
+        {
+          "id": "item_001",
+          "name": "Spaghetti",
+          "quantity": "500g",
+          "category": "pasta",
+          "purchased": false
+        },
+        {
+          "id": "item_002",
+          "name": "Ground Beef",
+          "quantity": "500g",
+          "category": "meat",
+          "purchased": false
+        }
+      ]
+    }
+  },
+  "recipes": {
+    "recipe_001": {
+      "id": "recipe_001",
+      "name": "Spaghetti Bolognese",
+      "description": "Classic Italian pasta dish",
+      "prep_time": 30,
+      "cook_time": 45,
+      "servings": 4,
+      "ingredients": [
+        {"name": "Spaghetti", "quantity": "500g", "unit": "g"},
+        {"name": "Ground Beef", "quantity": "500", "unit": "g"},
+        {"name": "Tomato Sauce", "quantity": "400", "unit": "ml"},
+        {"name": "Onion", "quantity": "1", "unit": "large"},
+        {"name": "Garlic", "quantity": "3", "unit": "cloves"}
+      ],
+      "instructions": [
+        "Boil water for pasta",
+        "Brown ground beef with onions and garlic",
+        "Add tomato sauce and simmer",
+        "Cook spaghetti according to package",
+        "Combine and serve"
+      ],
+      "tags": ["pasta", "italian", "dinner", "family"],
+      "source": "Family recipe",
+      "created": "2026-02-05T12:00:00Z"
+    }
+  },
+  "home_tasks": {
+    "weekly": [
+      {
+        "id": "task_001",
+        "name": "Vacuum living room",
+        "frequency": "weekly",
+        "day": "Monday",
+        "estimated_time": 30,
+        "assigned_to": ["Don", "Wife"],
+        "last_completed": "2026-01-29"
+      }
+    ],
+    "monthly": [
+      {
+        "id": "task_002",
+        "name": "Clean refrigerator",
+        "frequency": "monthly",
+        "day_of_month": 15,
+        "estimated_time": 60,
+        "assigned_to": ["Don"],
+        "last_completed": "2026-01-15"
+      }
+    ]
+  }
+}

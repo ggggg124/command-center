@@ -1,0 +1,36 @@
+{
+  "id": "auto-generated",
+  "name": "Recipe Name",
+  "category": ["dinner", "vegetarian", "quick"],
+  "prep_time_minutes": 30,
+  "cook_time_minutes": 20,
+  "total_time_minutes": 50,
+  "servings": 4,
+  "difficulty": "easy",
+  "source": "photo|url|book",
+  "source_details": "Where recipe came from",
+  "ingredients": [
+    {
+      "name": "ingredient name",
+      "quantity": 2,
+      "unit": "cups",
+      "notes": "chopped, diced, etc."
+    }
+  ],
+  "instructions": [
+    "Step 1 instructions",
+    "Step 2 instructions"
+  ],
+  "notes": "Any additional notes",
+  "tags": ["family-favorite", "meal-prep-friendly", "freezable"],
+  "image_path": "recipes/images/filename.jpg",
+  "created_date": "2026-02-05",
+  "last_made": "2026-02-05",
+  "rating": 5,
+  "dietary": {
+    "vegetarian": true,
+    "vegan": false,
+    "gluten_free": true,
+    "dairy_free": false
+  }
+}

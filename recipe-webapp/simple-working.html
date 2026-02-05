@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Working Recipe App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #F2F2F7; }
+        .card { background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .btn { background: #007AFF; color: white; padding: 10px 16px; border-radius: 8px; font-weight: 600; border: none; }
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #E5E5EA; padding: 12px; display: flex; justify-content: space-around; }
+        .nav-btn { display: flex; flex-direction: column; align-items: center; color: #8E8E93; }
+        .nav-btn.active { color: #007AFF; }
+    </style>
+</head>
+<body class="pb-20">
+    <header class="p-4 border-b bg-white">
+        <h1 class="text-xl font-bold">Recipe App</h1>
+    </header>
+    
+    <main class="p-4">
+        <div id="planner-view">
+            <div class="card">
+                <h2 class="font-bold mb-4">Weekly Planner</h2>
+                <div id="plan-days"></div>
+                <button onclick="generatePlan()" class="btn mt-4">Generate New Plan</button>
+            </div>
+        </div>
+        
+        <div id="recipes-view" class="hidden">
+            <div class="card">
+                <h2 class="font-bold mb-4">Recipes</h2>
+                <div id="recipe-list"></div>
+            </div>
+        </div>
+        
+        <div id="groceries-view" class="hidden">
+            <div class="card">
+                <h2 class="font-bold mb-4">Shopping List</h2>
+                <div id="shopping-list"></div>
+            </div>
+        </div>
+    </main>
+    
+    <nav class="nav">
+        <button onclick="showView('planner')" class="nav-btn active">
+            <i data-lucide="calendar"></i>
+            <span class="text-xs mt-1">Planner</span>
+        </button>
+        <button onclick="showView('recipes')" class="nav-btn">
+            <i data-lucide="book"></i>
+            <span class="text-xs mt-1">Recipes</span>
+        </button>
+        <button onclick="showView('groceries')" class="nav-btn">
+            <i data-lucide="shopping-cart"></i>
+            <span class="text-xs mt-1">Groceries</span>
+        </button>
+    </nav>
+    
+    <script>
+        // Simple data storage
+        const recipes = [
+            { id: 1, name: 'Spaghetti Bolognese', category: 'Pasta', cookingTime: 45, favorite: true, ingredients: [{name: 'Ground Beef', quantity: 500, unit: 'g'}, {name: 'Pasta', quantity: 400, unit: 'g'}] },
+            { id: 2, name: 'Chicken Stir Fry', category: 'Chicken', cookingTime: 30, favorite: false, ingredients: [{name: 'Chicken Breast', quantity: 2, unit: 'pieces'}, {name: 'Rice', quantity: 300, unit: 'g'}] },
+            { id: 3, name: 'Baked Salmon', category: 'Seafood', cookingTime: 25, favorite: true, ingredients: [{name: 'Salmon', quantity: 2, unit: 'fillets'}, {name: 'Potatoes', quantity: 4, unit: 'pieces'}] }
+        ];
+        
+        let currentPlan = null;
+        
+        // View management
+        function showView(viewName) {
+            document.querySelectorAll('[id$="-view"]').forEach(v => v.classList.add('hidden'));
+            document.getElementById(viewName + '-view').classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (viewName === 'planner') renderPlanner();
+            if (viewName === 'recipes') renderRecipes();
+            if (viewName === 'groceries') renderGroceries();
+            
+            lucide.createIcons();
+        }
+        
+        // Planner functions
+        function generatePlan() {
+            currentPlan = [
+                { day: 'Monday', recipe: recipes[0] },
+                { day: 'Tuesday', recipe: recipes[1] },
+                { day: 'Wednesday', recipe: recipes[2] },
+                { day: 'Thursday', type: 'Takeaway' },
+                { day: 'Friday', type: 'Takeaway' }
+            ];
+            renderPlanner();
+        }
+        
+        function renderPlanner() {
+            const container = document.getElementById('plan-days');
+            if (!currentPlan) {
+                container.innerHTML = '<p class="text-gray-500">No plan yet. Click "Generate New Plan"</p>';
+                return;
+            }
+            
+            container.innerHTML = currentPlan.map(day => `
+                <div class="mb-3 p-3 bg-gray-50 rounded-lg">
+                    <div class="flex justify-between">
+                        <span class="font-medium">${day.day}</span>
+                        ${day.recipe ? `<span class="text-sm text-gray-500">${day.recipe.name}</span>` : '<span class="text-gray-400">Takeaway</span>'}
+                    </div>
+                    ${day.recipe ? `<div class="text-xs text-gray-500 mt-1">${day.recipe.category} • ${day.recipe.cookingTime} min</div>` : ''}
+                </div>
+            `).join('');
+        }
+        
+        // Recipe functions
+        function renderRecipes() {
+            const container = document.getElementById('recipe-list');
+            container.innerHTML = recipes.map(recipe => `
+                <div class="mb-3 p-3 border rounded-lg">
+                    <div class="flex justify-between">
+                        <span class="font-medium">${recipe.name}</span>
+                        <button onclick="toggleFavorite(${recipe.id})" class="text-yellow-500">
+                            ${recipe.favorite ? '★' : '☆'}
+                        </button>
+                    </div>
+                    <div class="text-sm text-gray-500">${recipe.category} • ${recipe.cookingTime} min</div>
+                    <button onclick="viewRecipe(${recipe.id})" class="text-blue-600 text-sm mt-2">View Details</button>
+                </div>
+            `).join('');
+        }
+        
+        function toggleFavorite(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (recipe) {
+                recipe.favorite = !recipe.favorite;
+                renderRecipes();
+            }
+        }
+        
+        function viewRecipe(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (recipe) {
+                alert(`Recipe: ${recipe.name}\nIngredients: ${recipe.ingredients.map(i => `${i.quantity}${i.unit} ${i.name}`).join(', ')}`);
+            }
+        }
+        
+        // Groceries functions
+        function renderGroceries() {
+            const container = document.getElementById('shopping-list');
+            if (!currentPlan) {
+                container.innerHTML = '<p class="text-gray-500">Generate a meal plan first</p>';
+                return;
+            }
+            
+            const items = {};
+            currentPlan.forEach(day => {
+                if (day.recipe) {
+                    day.recipe.ingredients.forEach(ing => {
+                        const key = ing.name;
+                        if (!items[key]) items[key] = { ...ing, recipes: [] };
+                        items[key].recipes.push(day.recipe.name);
+                    });
+                }
+            });
+            
+            container.innerHTML = Object.values(items).map(item => `
+                <div class="mb-2 p-2 bg-gray-50 rounded">
+                    <div class="flex justify-between">
+                        <span>${item.name}</span>
+                        <span class="font-medium">${item.quantity}${item.unit}</span>
+                    </div>
+                    <div class="text-xs text-gray-500">For: ${item.recipes.join(', ')}</div>
+                </div>
+            `).join('');
+        }
+        
+        // Initialize
+        window.onload = () => {
+            lucide.createIcons();
+            generatePlan();
+            renderRecipes();
+        };
+    </script>
+</body>
+</html>

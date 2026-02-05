@@ -8,6 +8,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Ensure proper routing on Vercel
+  trailingSlash: false,
+  basePath: '',
 }
 
 module.exports = nextConfig
